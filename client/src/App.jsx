@@ -27,27 +27,34 @@ const App = () => {
         console.log(todo);
     }
 
-    const updateTodo = async () => {
-        const res = await fetch('http://localhost:3000/api/todos/671215bd4efc705bbd8f006e', {
+    const updateTodo = async (id, title, completed) => {
+        const res = await fetch(`http://localhost:3000/api/todos/${id}`, {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                title: 'Updated Todo',
-                completed: true
+                title: title,
+                completed: completed
             })
         })
         const todo = await res.json()
         console.log(todo);
     }
 
-    const deleteTodo = async () => {
-        const res = await fetch('http://localhost:3000/api/todos/671215bd4efc705bbd8f006e', {
+    const toggleCompleted = async (id) => {
+        const res = await fetch(`http://localhost:3000/api/todos/completed/${id}`, {
+            method: 'PUT'
+        })
+        const response = await res.json()
+        console.log(response);
+        
+    }
+
+    const deleteTodo = async (id) => {
+        const res = await fetch(`http://localhost:3000/api/todos/${id}`, {
             method: 'DELETE'
         })
-        const todo = await res.json()
-        console.log(todo);
+        const response = await res.json()
+        console.log(response);
     }
 
     useEffect(() => {
@@ -61,7 +68,7 @@ const App = () => {
     return (
         <div>
             <TodoForm onAddTodo={handleAddTodo} />
-            <TodoList todos={ todos } />
+            <TodoList todos={ todos } onDeleteTodo={deleteTodo} toggleCompleted={toggleCompleted} />
         </div>
     )
 }

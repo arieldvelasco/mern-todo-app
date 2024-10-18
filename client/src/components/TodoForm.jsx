@@ -8,6 +8,7 @@ const TodoForm = ({onAddTodo}) => {
     const handleSubmit = (event) => {
         event.preventDefault()
         onAddTodo(newTodo)
+        setNewTodo('')
     }
 
     return (

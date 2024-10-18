@@ -20,24 +20,31 @@ router.post("/todos", async (req, res) => {
     }
 });
 
-
-
 // PUT /todos/:id
-router.put("/todos/:id", async (req, res) => {
-    const { id } = req.params;
-    const record = await todoModel.findByIdAndUpdate(
-        id,
-        req.body,
-        { new: true }
-      );
-    router.status(200).json(record);
+router.put("/todos/completed/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const todo = await todoModel.findById(id);
+        todo.completed = !todo.completed;
+        const result = await todo.save();
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(400).json({ error: "Error updating the todo", message: error.message });
+    }
 });
 
 // DELETE /todos/:id
 router.delete("/todos/:id", async (req, res) => {
-    const { id } = req.params;
-    await todoModel.findByIdAndDelete(id);
-    res.status(200).json({ message: "Todo deleted successfully"});
+    console.log("DELETE");
+    
+    try
+    {
+        const { id } = req.params;
+        await todoModel.findByIdAndDelete(id);
+        res.status(200).json({ message: "Todo deleted successfully"});
+    } catch (error) {
+        res.status(400).json({ error: "Error deleting the Todo"});
+    }
 });
 
 export default router;
