@@ -20,7 +20,6 @@ const Todo = ({ id, title, completed, onDeleteTodo, toggleCompleted, onEditedTod
 
     const toggleEdit = () => {
         console.log('toggleEdit');
-        
         setEditState(!editState)
     }
 
