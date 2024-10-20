@@ -7,7 +7,7 @@ import mongoose from 'mongoose';
 const app = express();
 
 var corsOptions = {
-    origin: 'http://localhost:5173',
+    origin: '*',
     methods: "GET, POST, PUT, DELETE"
 }
 

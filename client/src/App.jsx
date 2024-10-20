@@ -27,13 +27,14 @@ const App = () => {
         console.log(todo);
     }
 
-    const updateTodo = async (id, title, completed) => {
-        const res = await fetch(`http://localhost:3000/api/todos/${id}`, {
+    const updateTodo = async (id, title) => {
+        console.log('updating todo');
+        
+        const res = await fetch(`http://localhost:3000/api/todos/edit/${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                title: title,
-                completed: completed
+                title: title
             })
         })
         const todo = await res.json()
@@ -46,7 +47,6 @@ const App = () => {
         })
         const response = await res.json()
         console.log(response);
-        
     }
 
     const deleteTodo = async (id) => {
@@ -66,9 +66,9 @@ const App = () => {
     }, [todos])
 
     return (
-        <div>
+        <div className='container' style={{ maxWidth: '35rem' }} >
             <TodoForm onAddTodo={handleAddTodo} />
-            <TodoList todos={ todos } onDeleteTodo={deleteTodo} toggleCompleted={toggleCompleted} />
+            <TodoList todos={ todos } onDeleteTodo={deleteTodo} toggleCompleted={toggleCompleted} onEditedTodo={updateTodo} />
         </div>
     )
 }
